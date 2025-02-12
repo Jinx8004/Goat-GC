@@ -80,32 +80,6 @@
             margin-top: 5px;
             background: red;
         }
-
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .test-purpose {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff4500;
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
-            }
-            to {
-                box-shadow: 0 0 20px rgba(255, 140, 0, 0.9);
-            }
-        }
     </style>
 </head>
 <body>
@@ -130,7 +104,7 @@
         <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
     </div>
 
-    <!-- Sri Lanka vs Australia, 1st ODI Fancode -->
+    <!-- Sri Lanka vs Australia, 1st ODI Fancode Stream -->
     <div class="match">
         <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
         <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
@@ -146,10 +120,6 @@
             <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
         </video>
         <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
-    </div>
-
-    <div class="footer">
-        <p class="test-purpose">It's for testing purposes</p>
     </div>
 </div>
 
@@ -182,23 +152,6 @@
         } else {
             video.src = streamUrl;
         }
-        video.play();
-    }
-
-    function toggleLocalVideo(videoElementId, playButton, stopButtonId) {
-        let video = document.getElementById(videoElementId);
-        let stopButton = document.getElementById(stopButtonId);
-
-        document.querySelectorAll('video').forEach(v => {
-            v.pause();
-            v.style.display = 'none';
-        });
-        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
-        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
-
-        video.style.display = 'block';
-        stopButton.style.display = 'inline-flex';
-        playButton.style.display = 'none';
         video.play();
     }
 
