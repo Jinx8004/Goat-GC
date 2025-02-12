@@ -6,6 +6,7 @@
     <title>GOAT GC</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
+        /* Modern Dark Theme */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -14,79 +15,130 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background-color: white;
+            background-color: #1a1a1a; /* Dark background */
+            color: #ffffff; /* White text */
         }
 
         .container {
             width: 100%;
             max-width: 800px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
+            border-radius: 12px;
+            background-color: #2a2a2a; /* Dark container */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             text-align: center;
+            position: relative;
+            margin: 20px;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
         .logo {
-            width: 150px; /* Bigger logo */
-            margin-bottom: 10px;
+            width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.6)); /* Glow effect */
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
         .match {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            background-color: #333333; /* Dark card background */
+            border: 1px solid #444444;
+            border-radius: 12px;
+            margin-bottom: 20px;
             padding: 20px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+
         .match:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
+
         .match-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            color: #ff8c00; /* Accent color */
         }
+
         video {
             width: 100%;
             border-radius: 8px;
             background-color: black;
             display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
+
         .play-btn, .stop-btn {
-            width: 100px;
+            width: 120px;
             height: 50px;
-            margin-top: 10px;
+            margin-top: 15px;
             background: linear-gradient(90deg, #ff8c00, #ff4500);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
+
         .play-btn:hover, .stop-btn:hover {
             background: linear-gradient(90deg, #ff4500, #ff8c00);
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(255, 140, 0, 0.4);
         }
+
         .stop-btn {
             display: none;
-            margin-top: 5px;
-            background: red;
+            margin-top: 10px;
+            background: #ff4444; /* Red for stop button */
+        }
+
+        .stop-btn:hover {
+            background: #ff0000;
+        }
+
+        /* Subtle animation for buttons */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .play-btn {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="https://i.imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
-    <h1>GOAT GC</h1>
+    <div class="header">
+        <img src="https://imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
+        <h1 class="title">GOAT GC</h1>
+    </div>
 
     <!-- Sky Cricket UK Stream -->
     <div class="match">
@@ -104,22 +156,36 @@
         <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
     </div>
 
-    <!-- Sri Lanka vs Australia, 1st ODI Fancode Stream -->
+    <!-- Fox 505 Stream -->
     <div class="match">
-        <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
-        <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
-        <video id="video3" controls></video>
-        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+        <div class="match-title">Fox 505</div>
+        <button class="play-btn" id="play4" onclick="toggleStream('video4', 'https://centra.ink/Centra_Live_oa4U/PVTy9dHKFK/794859.m3u8', this, 'stop4')">Play</button>
+        <video id="video4" controls></video>
+        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
     </div>
 
-    <!-- Pakistan vs South Africa Fancode Stream -->
+    <!-- Sky Sports Main Event Stream -->
     <div class="match">
-        <div class="match-title">Pakistan vs South Africa Fancode</div>
-        <button class="play-btn" id="play4" onclick="toggleLocalVideo('video4', this, 'stop4')">Play</button>
-        <video id="video4" controls loop>
-            <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
-        </video>
-        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
+        <div class="match-title">Sky Sports Main Event</div>
+        <button class="play-btn" id="play5" onclick="toggleStream('video5', 'https://centra.ink/Centra_Live_oa4U/PVTy9dHKFK/793873.m3u8', this, 'stop5')">Play</button>
+        <video id="video5" controls></video>
+        <button class="stop-btn" id="stop5" onclick="stopStream('video5', 'play5')">Stop</button>
+    </div>
+
+    <!-- Formula 1 Stream -->
+    <div class="match">
+        <div class="match-title">Formula 1</div>
+        <button class="play-btn" id="play6" onclick="toggleStream('video6', 'https://centra.ink/Centra_Live_oa4U/PVTy9dHKFK/437269.m3u8', this, 'stop6')">Play</button>
+        <video id="video6" controls></video>
+        <button class="stop-btn" id="stop6" onclick="stopStream('video6', 'play6')">Stop</button>
+    </div>
+
+    <!-- Premier League Stream -->
+    <div class="match">
+        <div class="match-title">Premier League</div>
+        <button class="play-btn" id="play7" onclick="toggleStream('video7', 'https://centra.ink/Centra_Live_oa4U/PVTy9dHKFK/793874.m3u8', this, 'stop7')">Play</button>
+        <video id="video7" controls></video>
+        <button class="stop-btn" id="stop7" onclick="stopStream('video7', 'play7')">Stop</button>
     </div>
 </div>
 
@@ -137,6 +203,7 @@
                 v.hls = null;
             }
         });
+
         document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
         document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
 
@@ -152,6 +219,24 @@
         } else {
             video.src = streamUrl;
         }
+        video.play();
+    }
+
+    function toggleLocalVideo(videoElementId, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+        });
+
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
         video.play();
     }
 
