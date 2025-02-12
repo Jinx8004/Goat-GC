@@ -25,26 +25,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             background-color: #f9f9f9;
             text-align: center;
-            position: relative;
-        }
-
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
         }
 
         .logo {
-            width: 150px; /* Bada kar diya */
-            height: auto;
+            width: 150px; /* Bigger logo */
             margin-bottom: 10px;
-        }
-
-        .title {
-            font-size: 30px;
-            font-weight: bold;
         }
 
         .match {
@@ -54,26 +39,21 @@
             margin-bottom: 15px;
             padding: 20px;
             transition: transform 0.3s ease;
-            position: relative;
         }
-
         .match:hover {
             transform: scale(1.05);
         }
-
         .match-title {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
         }
-
         video {
             width: 100%;
             border-radius: 8px;
             background-color: black;
             display: none;
         }
-
         .play-btn, .stop-btn {
             width: 100px;
             height: 50px;
@@ -91,26 +71,48 @@
             align-items: center;
             justify-content: center;
         }
-
         .play-btn:hover, .stop-btn:hover {
             background: linear-gradient(90deg, #ff4500, #ff8c00);
             transform: scale(1.1);
         }
-
         .stop-btn {
             display: none;
             margin-top: 5px;
             background: red;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .test-purpose {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4500;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.9);
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <img src="https://imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
-        <h1 class="title">GOAT GC</h1>
-    </div>
+    <img src="https://i.imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
+    <h1>GOAT GC</h1>
 
     <!-- Sky Cricket UK Stream -->
     <div class="match">
@@ -128,14 +130,26 @@
         <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
     </div>
 
+    <!-- Sri Lanka vs Australia, 1st ODI Fancode -->
+    <div class="match">
+        <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
+        <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
+        <video id="video3" controls></video>
+        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+    </div>
+
     <!-- Pakistan vs South Africa Fancode Stream -->
     <div class="match">
         <div class="match-title">Pakistan vs South Africa Fancode</div>
-        <button class="play-btn" id="play3" onclick="toggleLocalVideo('video3', this, 'stop3')">Play</button>
-        <video id="video3" controls loop>
+        <button class="play-btn" id="play4" onclick="toggleLocalVideo('video4', this, 'stop4')">Play</button>
+        <video id="video4" controls loop>
             <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
         </video>
-        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
+    </div>
+
+    <div class="footer">
+        <p class="test-purpose">It's for testing purposes</p>
     </div>
 </div>
 
@@ -153,7 +167,6 @@
                 v.hls = null;
             }
         });
-
         document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
         document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
 
@@ -180,7 +193,666 @@
             v.pause();
             v.style.display = 'none';
         });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
 
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        video.play();
+    }
+
+    function stopStream(videoElementId, playButtonId) {
+        let video = document.getElementById(videoElementId);
+        video.pause();
+        video.style.display = 'none';
+        video.removeAttribute('src');
+        if (video.hls) {
+            video.hls.destroy();
+            video.hls = null;
+        }
+        document.getElementById(playButtonId).style.display = 'inline-flex';
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAT GC</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px; /* Bigger logo */
+            margin-bottom: 10px;
+        }
+
+        .match {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .match:hover {
+            transform: scale(1.05);
+        }
+        .match-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background-color: black;
+            display: none;
+        }
+        .play-btn, .stop-btn {
+            width: 100px;
+            height: 50px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover, .stop-btn:hover {
+            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            transform: scale(1.1);
+        }
+        .stop-btn {
+            display: none;
+            margin-top: 5px;
+            background: red;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .test-purpose {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4500;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
+    <h1>GOAT GC</h1>
+
+    <!-- Sky Cricket UK Stream -->
+    <div class="match">
+        <div class="match-title">Sky Cricket UK</div>
+        <button class="play-btn" id="play1" onclick="toggleStream('video1', 'https://tinyurl.com/Jinxskycricket', this, 'stop1')">Play</button>
+        <video id="video1" controls></video>
+        <button class="stop-btn" id="stop1" onclick="stopStream('video1', 'play1')">Stop</button>
+    </div>
+
+    <!-- Fox 501 Stream -->
+    <div class="match">
+        <div class="match-title">Fox 501</div>
+        <button class="play-btn" id="play2" onclick="toggleStream('video2', 'https://tinyurl.com/Jinxfoxcricket', this, 'stop2')">Play</button>
+        <video id="video2" controls></video>
+        <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
+    </div>
+
+    <!-- Sri Lanka vs Australia, 1st ODI Fancode -->
+    <div class="match">
+        <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
+        <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
+        <video id="video3" controls></video>
+        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+    </div>
+
+    <!-- Pakistan vs South Africa Fancode Stream -->
+    <div class="match">
+        <div class="match-title">Pakistan vs South Africa Fancode</div>
+        <button class="play-btn" id="play4" onclick="toggleLocalVideo('video4', this, 'stop4')">Play</button>
+        <video id="video4" controls loop>
+            <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
+        </video>
+        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
+    </div>
+
+    <div class="footer">
+        <p class="test-purpose">It's for testing purposes</p>
+    </div>
+</div>
+
+<script>
+    function toggleStream(videoElementId, streamUrl, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+            v.removeAttribute('src');
+            if (v.hls) {
+                v.hls.destroy();
+                v.hls = null;
+            }
+        });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            video.hls = hls;
+        } else {
+            video.src = streamUrl;
+        }
+        video.play();
+    }
+
+    function toggleLocalVideo(videoElementId, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+        });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        video.play();
+    }
+
+    function stopStream(videoElementId, playButtonId) {
+        let video = document.getElementById(videoElementId);
+        video.pause();
+        video.style.display = 'none';
+        video.removeAttribute('src');
+        if (video.hls) {
+            video.hls.destroy();
+            video.hls = null;
+        }
+        document.getElementById(playButtonId).style.display = 'inline-flex';
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAT GC</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px; /* Bigger logo */
+            margin-bottom: 10px;
+        }
+
+        .match {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .match:hover {
+            transform: scale(1.05);
+        }
+        .match-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background-color: black;
+            display: none;
+        }
+        .play-btn, .stop-btn {
+            width: 100px;
+            height: 50px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover, .stop-btn:hover {
+            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            transform: scale(1.1);
+        }
+        .stop-btn {
+            display: none;
+            margin-top: 5px;
+            background: red;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .test-purpose {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4500;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
+    <h1>GOAT GC</h1>
+
+    <!-- Sky Cricket UK Stream -->
+    <div class="match">
+        <div class="match-title">Sky Cricket UK</div>
+        <button class="play-btn" id="play1" onclick="toggleStream('video1', 'https://tinyurl.com/Jinxskycricket', this, 'stop1')">Play</button>
+        <video id="video1" controls></video>
+        <button class="stop-btn" id="stop1" onclick="stopStream('video1', 'play1')">Stop</button>
+    </div>
+
+    <!-- Fox 501 Stream -->
+    <div class="match">
+        <div class="match-title">Fox 501</div>
+        <button class="play-btn" id="play2" onclick="toggleStream('video2', 'https://tinyurl.com/Jinxfoxcricket', this, 'stop2')">Play</button>
+        <video id="video2" controls></video>
+        <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
+    </div>
+
+    <!-- Sri Lanka vs Australia, 1st ODI Fancode -->
+    <div class="match">
+        <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
+        <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
+        <video id="video3" controls></video>
+        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+    </div>
+
+    <!-- Pakistan vs South Africa Fancode Stream -->
+    <div class="match">
+        <div class="match-title">Pakistan vs South Africa Fancode</div>
+        <button class="play-btn" id="play4" onclick="toggleLocalVideo('video4', this, 'stop4')">Play</button>
+        <video id="video4" controls loop>
+            <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
+        </video>
+        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
+    </div>
+
+    <div class="footer">
+        <p class="test-purpose">It's for testing purposes</p>
+    </div>
+</div>
+
+<script>
+    function toggleStream(videoElementId, streamUrl, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+            v.removeAttribute('src');
+            if (v.hls) {
+                v.hls.destroy();
+                v.hls = null;
+            }
+        });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            video.hls = hls;
+        } else {
+            video.src = streamUrl;
+        }
+        video.play();
+    }
+
+    function toggleLocalVideo(videoElementId, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+        });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        video.play();
+    }
+
+    function stopStream(videoElementId, playButtonId) {
+        let video = document.getElementById(videoElementId);
+        video.pause();
+        video.style.display = 'none';
+        video.removeAttribute('src');
+        if (video.hls) {
+            video.hls.destroy();
+            video.hls = null;
+        }
+        document.getElementById(playButtonId).style.display = 'inline-flex';
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAT GC</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px; /* Bigger logo */
+            margin-bottom: 10px;
+        }
+
+        .match {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .match:hover {
+            transform: scale(1.05);
+        }
+        .match-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background-color: black;
+            display: none;
+        }
+        .play-btn, .stop-btn {
+            width: 100px;
+            height: 50px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover, .stop-btn:hover {
+            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            transform: scale(1.1);
+        }
+        .stop-btn {
+            display: none;
+            margin-top: 5px;
+            background: red;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .test-purpose {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4500;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.imgur.com/8y9lOuL.png" alt="GOAT GC Logo" class="logo">
+    <h1>GOAT GC</h1>
+
+    <!-- Sky Cricket UK Stream -->
+    <div class="match">
+        <div class="match-title">Sky Cricket UK</div>
+        <button class="play-btn" id="play1" onclick="toggleStream('video1', 'https://tinyurl.com/Jinxskycricket', this, 'stop1')">Play</button>
+        <video id="video1" controls></video>
+        <button class="stop-btn" id="stop1" onclick="stopStream('video1', 'play1')">Stop</button>
+    </div>
+
+    <!-- Fox 501 Stream -->
+    <div class="match">
+        <div class="match-title">Fox 501</div>
+        <button class="play-btn" id="play2" onclick="toggleStream('video2', 'https://tinyurl.com/Jinxfoxcricket', this, 'stop2')">Play</button>
+        <video id="video2" controls></video>
+        <button class="stop-btn" id="stop2" onclick="stopStream('video2', 'play2')">Stop</button>
+    </div>
+
+    <!-- Sri Lanka vs Australia, 1st ODI Fancode -->
+    <div class="match">
+        <div class="match-title">Sri Lanka vs Australia, 1st ODI Fancode</div>
+        <button class="play-btn" id="play3" onclick="toggleStream('video3', 'https://dai.google.com/linear/hls/event/HynNobMPSu6nQCgpxsK0lQ/master.m3u8', this, 'stop3')">Play</button>
+        <video id="video3" controls></video>
+        <button class="stop-btn" id="stop3" onclick="stopStream('video3', 'play3')">Stop</button>
+    </div>
+
+    <!-- Pakistan vs South Africa Fancode Stream -->
+    <div class="match">
+        <div class="match-title">Pakistan vs South Africa Fancode</div>
+        <button class="play-btn" id="play4" onclick="toggleLocalVideo('video4', this, 'stop4')">Play</button>
+        <video id="video4" controls loop>
+            <source src="https://i.imgur.com/OOiJQpo.mp4" type="video/mp4">
+        </video>
+        <button class="stop-btn" id="stop4" onclick="stopStream('video4', 'play4')">Stop</button>
+    </div>
+
+    <div class="footer">
+        <p class="test-purpose">It's for testing purposes</p>
+    </div>
+</div>
+
+<script>
+    function toggleStream(videoElementId, streamUrl, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+            v.removeAttribute('src');
+            if (v.hls) {
+                v.hls.destroy();
+                v.hls = null;
+            }
+        });
+        document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
+
+        video.style.display = 'block';
+        stopButton.style.display = 'inline-flex';
+        playButton.style.display = 'none';
+        
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            video.hls = hls;
+        } else {
+            video.src = streamUrl;
+        }
+        video.play();
+    }
+
+    function toggleLocalVideo(videoElementId, playButton, stopButtonId) {
+        let video = document.getElementById(videoElementId);
+        let stopButton = document.getElementById(stopButtonId);
+
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.style.display = 'none';
+        });
         document.querySelectorAll('.stop-btn').forEach(btn => btn.style.display = 'none');
         document.querySelectorAll('.play-btn').forEach(btn => btn.style.display = 'inline-flex');
 
